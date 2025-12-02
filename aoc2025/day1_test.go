@@ -10,6 +10,8 @@ import (
 	"testing"
 
 	"github.com/jghiloni/adventofcode/aoc2025"
+
+	. "github.com/onsi/gomega"
 )
 
 const day1ExampleInput = `L68
@@ -25,61 +27,50 @@ L82
 `
 
 func TestDay1Part1(t *testing.T) {
+	RegisterTestingT(t)
 	result, err := aoc2025.Day1Part1(strings.NewReader(day1ExampleInput))
-	if err != nil {
-		t.Fatal("Unexpected err:", err)
-	}
-
-	if result != 3 {
-		t.Fatalf("Expected result 3, got %d", result)
-	}
+	Expect(err).ShouldNot(HaveOccurred())
+	Expect(result).To(Equal(3))
 }
 
 func TestDay1Part1Real(t *testing.T) {
+	RegisterTestingT(t)
+
 	_, err := os.Stat("testdata/day1.txt")
 	if errors.Is(err, fs.ErrNotExist) {
 		return
 	}
+	Expect(err).NotTo(HaveOccurred())
 
 	b, err := os.ReadFile("testdata/day1.txt")
-	if err != nil {
-		t.Fatalf("Unexpected err %v", err)
-	}
+	Expect(err).NotTo(HaveOccurred())
 
 	result, err := aoc2025.Day1Part1(bytes.NewBuffer(b))
-	if err != nil {
-		t.Fatalf("Unexpected err %v", err)
-	}
+	Expect(err).NotTo(HaveOccurred())
 
 	fmt.Println(result)
 }
 
 func TestDay1Part2(t *testing.T) {
+	RegisterTestingT(t)
 	result, err := aoc2025.Day1Part2(strings.NewReader(day1ExampleInput))
-	if err != nil {
-		t.Fatal("Unexpected err:", err)
-	}
-
-	if result != 6 {
-		t.Fatalf("Expected result 6, got %d", result)
-	}
+	Expect(err).NotTo(HaveOccurred())
+	Expect(result).To(Equal(6))
 }
 
 func TestDay1Part2Real(t *testing.T) {
+	RegisterTestingT(t)
 	_, err := os.Stat("testdata/day1.txt")
 	if errors.Is(err, fs.ErrNotExist) {
 		return
 	}
+	Expect(err).NotTo(HaveOccurred())
 
 	b, err := os.ReadFile("testdata/day1.txt")
-	if err != nil {
-		t.Fatalf("Unexpected err %v", err)
-	}
+	Expect(err).NotTo(HaveOccurred())
 
 	result, err := aoc2025.Day1Part2(bytes.NewBuffer(b))
-	if err != nil {
-		t.Fatalf("Unexpected err %v", err)
-	}
+	Expect(err).NotTo(HaveOccurred())
 
 	fmt.Println(result)
 }
