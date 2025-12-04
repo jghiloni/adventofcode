@@ -28,6 +28,12 @@ func InputAsLines(in io.Reader, preserveWhitespace bool) ([]string, error) {
 		lines = append(lines, line)
 	}
 
+	if !preserveWhitespace {
+		lines = slices.Filter(lines, func(s string) bool {
+			return strings.TrimSpace(s) != ""
+		})
+	}
+
 	return lines, scanner.Err()
 }
 
