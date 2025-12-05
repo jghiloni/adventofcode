@@ -88,3 +88,19 @@ func StringsAsRangeList[T NaturalNumber](list []string) (ranges []NumRange[T], e
 
 	return
 }
+
+// InputAsGrid returns a grid in the form of grid[y][x], where 0,0 is the top left
+// and the bottom right is [len(grid),len(grid[len(grid)-1])]
+func InputAsGrid(in io.Reader) ([][]byte, error) {
+	lines, err := InputAsLines(in, false)
+	if err != nil {
+		return nil, err
+	}
+
+	grid := make([][]byte, len(lines))
+	for y, row := range lines {
+		grid[y] = []byte(row)
+	}
+
+	return grid, nil
+}
