@@ -17,14 +17,14 @@ const (
 	day1LockStartingPosition = day1LockMinVal + (day1LockRange / 2)
 )
 
-func Day1Part1(in io.Reader) (result int, err error) {
+func Day1Part1(in io.Reader) (result uint64, err error) {
 	moves, err := parseDay1Input(in)
 	if err != nil {
 		return
 	}
 
 	position := day1LockStartingPosition
-	totalZeroes := 0
+	totalZeroes := uint64(0)
 	for _, move := range moves {
 		position += move + day1LockRange
 		for position < 0 {
@@ -42,16 +42,16 @@ func Day1Part1(in io.Reader) (result int, err error) {
 	return
 }
 
-func Day1Part2(in io.Reader) (result int, err error) {
+func Day1Part2(in io.Reader) (result uint64, err error) {
 	moves, err := parseDay1Input(in)
 	if err != nil {
 		return
 	}
 
 	position := day1LockStartingPosition
-	totalZeroes := 0
+	totalZeroes := uint64(0)
 	for _, move := range moves {
-		var z int
+		var z uint64
 		position, z = countZeroes(position, move)
 		totalZeroes += z
 	}
@@ -98,7 +98,7 @@ func parseDay1Input(in io.Reader) (moves []int, err error) {
 	return
 }
 
-func countZeroes(startingPosition, move int) (endPosition, zeroes int) {
+func countZeroes(startingPosition, move int) (endPosition int, zeroes uint64) {
 	counter := move / utils.Abs(move)
 
 	endPosition = startingPosition
