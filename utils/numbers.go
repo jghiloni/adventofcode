@@ -3,9 +3,12 @@ package utils
 import "math"
 
 type RealNumber interface {
-	~int8 | ~int16 | ~int32 | ~int64 | ~int |
-		~uint8 | ~uint16 | ~uint32 | ~uint64 | ~uint |
+	WholeNumber |
 		~float32 | ~float64
+}
+
+type WholeNumber interface {
+	NaturalNumber | ~int64 | ~int32 | ~int16 | ~int8 | ~int
 }
 
 type NaturalNumber interface {

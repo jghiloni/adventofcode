@@ -38,7 +38,17 @@ func Day5Part1(in io.Reader) (uint64, error) {
 }
 
 func Day5Part2(in io.Reader) (uint64, error) {
-	panic("unimplemented")
+	ranges, _, err := collectInput(in)
+	if err != nil {
+		return 0, err
+	}
+
+	normalized := reduceRanges(ranges)
+	total := slices.Reduce(normalized, func(subtotal uint64, r utils.NumRange[uint64]) uint64 {
+		return subtotal + (r.Max - r.Min + 1)
+	}, uint64(0))
+
+	return total, nil
 }
 
 func collectInput(in io.Reader) ([]utils.NumRange[uint64], []uint64, error) {
@@ -67,4 +77,41 @@ func collectInput(in io.Reader) ([]utils.NumRange[uint64], []uint64, error) {
 	})
 
 	return ranges, ids, nil
+}
+
+func reduceRanges(ranges []utils.NumRange[uint64]) []utils.NumRange[uint64] {
+	if len(ranges) == 0 {
+		return nil
+	}
+
+	reduced := make([]utils.NumRange[uint64], len(ranges))
+	copy(reduced, ranges)
+	var reduceCount = 0
+	for {
+		reduced, reduceCount = reduceRangesIteration(reduced)
+		if reduceCount == 0 {
+			return reduced
+		}
+	}
+}
+
+func reduceRangesIteration(rs []utils.NumRange[uint64]) ([]utils.NumRange[uint64], int) {
+	reduced := 0
+	slices.SortFunc(rs, func(a, b utils.NumRange[uint64]) int {
+		x := int(a.Min) - int(b.Min)
+		if x == 0 {
+			x = int(a.Max) - int(b.Max)
+		}
+		return x
+	})
+	for i := 1; i < len(rs); i++ {
+		if rs[i-1].Intersects(rs[i]) {
+			rs[i-1] = utils.NumRange[uint64]{Min: min(rs[i-1].Min, rs[i].Min), Max: max(rs[i-1].Max, rs[i].Max)}
+			rs = slices.Delete(rs, i, i+1)
+			i--
+			reduced++
+		}
+	}
+
+	return rs, reduced
 }

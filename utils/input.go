@@ -55,9 +55,34 @@ func InputAsDelimitedScanner(in io.Reader, delimiter string) *bufio.Scanner {
 	return scanner
 }
 
-type NumRange[T interface{ NaturalNumber | RealNumber }] struct {
+type NumRange[T WholeNumber] struct {
 	Min T
 	Max T
+}
+
+func (n NumRange[T]) Size() T {
+	if !n.Valid() {
+		return 0
+	}
+
+	return n.Max - n.Min + 1
+}
+
+func (n NumRange[T]) Valid() bool {
+	return n.Min <= n.Max
+}
+
+func (n NumRange[T]) Intersects(m NumRange[T]) bool {
+	if !n.Valid() || !m.Valid() {
+		return false
+	}
+
+	// check for a "left overlap", where n's min is lower than m's min and n's max is higher than m's min
+	leftIntersection := n.Min <= m.Min && n.Max >= m.Min
+
+	// a right intersection is where n's min is greater than m's min but lower than m's max
+	rightIntersection := n.Min >= m.Min && n.Min <= m.Max
+	return leftIntersection || rightIntersection
 }
 
 func StringsAsRangeList[T NaturalNumber](list []string) (ranges []NumRange[T], err error) {
