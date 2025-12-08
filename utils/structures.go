@@ -23,6 +23,14 @@ type ByteGridCoordinate struct {
 	g    *ByteGrid
 }
 
+func (b ByteGridCoordinate) X() int {
+	return b.x
+}
+
+func (b ByteGridCoordinate) Y() int {
+	return b.y
+}
+
 func (b ByteGridCoordinate) Valid() bool {
 	return b.x >= 0 && b.x < b.g.cols && b.y >= 0 && b.y < b.g.rows
 }
@@ -32,11 +40,11 @@ func (b ByteGridCoordinate) Value() (byte, bool) {
 		return 0, false
 	}
 
-	idx := b.index()
+	idx := b.Index()
 	return b.g.data[idx], true
 }
 
-func (b ByteGridCoordinate) index() int {
+func (b ByteGridCoordinate) Index() int {
 	return b.y*b.g.cols + b.x
 }
 
@@ -96,7 +104,7 @@ func (g *ByteGrid) SetValueAt(pos ByteGridCoordinate, value byte) bool {
 		return false
 	}
 
-	idx := pos.index()
+	idx := pos.Index()
 	g.data = g.data[:idx] + string([]byte{value}) + g.data[idx+1:]
 	return true
 }

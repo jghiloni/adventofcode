@@ -34,6 +34,8 @@ var exercises = map[string]Exercise{
 
 	"2025-12-06/1": aoc2025.Day6Part1,
 	"2025-12-06/2": aoc2025.Day6Part2,
+
+	"2025-12-07/1": aoc2025.Day7Part1,
 }
 
 func main() {

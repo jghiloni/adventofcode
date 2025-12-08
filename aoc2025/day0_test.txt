@@ -1,0 +1,38 @@
+package aoc2025_test
+
+import (
+	"fmt"
+	"math"
+	"strings"
+	"testing"
+	"time"
+
+	"github.com/jghiloni/adventofcode/aoc2025"
+	. "github.com/onsi/gomega"
+)
+
+const day0ExampleInput = ``
+
+func TestDay0Part1(t *testing.T) {
+	RegisterTestingT(t)
+
+	start := time.Now()
+	result, err := aoc2025.Day0Part1(strings.NewReader(day0ExampleInput))
+	end := time.Now()
+
+	Expect(err).NotTo(HaveOccurred())
+	Expect(result).To(BeEquivalentTo(math.MaxInt))
+	fmt.Printf("Elapsed time on example input: %s\n", end.Sub(start))
+}
+
+func TestDay0Part2(t *testing.T) {
+	RegisterTestingT(t)
+
+	start := time.Now()
+	result, err := aoc2025.Day0Part2(strings.NewReader(day0ExampleInput))
+	end := time.Now()
+
+	Expect(err).NotTo(HaveOccurred())
+	Expect(result).To(BeEquivalentTo(math.MaxInt))
+	fmt.Printf("Elapsed time on example input: %s\n", end.Sub(start))
+}

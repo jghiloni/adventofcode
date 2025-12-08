@@ -1,0 +1,11 @@
+package aoc2025
+
+import "io"
+
+func Day0Part1(in io.Reader) (uint64, error) {
+	panic("unimplemented")
+}
+
+func Day0Part2(in io.Reader) (uint64, error) {
+	panic("unimplemented")
+}
