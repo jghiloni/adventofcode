@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"runtime"
 	"time"
 
 	"github.com/jghiloni/adventofcode/aoc2025"
@@ -37,6 +38,9 @@ var exercises = map[string]Exercise{
 
 	"2025-12-07/1": aoc2025.Day7Part1,
 	"2025-12-07/2": aoc2025.Day7Part2,
+
+	"2025-12-08/1": aoc2025.Day8Part1,
+	"2025-12-08/2": aoc2025.Day8Part2,
 }
 
 func main() {
@@ -74,9 +78,14 @@ func main() {
 		log.Fatalf("Exercise %d for %s has not been implemented", p, d)
 	}
 
+	var msa, msb runtime.MemStats
 	start := time.Now()
+	runtime.ReadMemStats(&msa)
 	result, err := exercise(in)
+	runtime.ReadMemStats(&msb)
 	end := time.Now()
+
+	totalAlloc := msb.TotalAlloc - msa.TotalAlloc
 
 	runtimeDuration := end.Sub(start)
 	resultStr := fmt.Sprintf("%d", result)
@@ -99,6 +108,6 @@ func main() {
 	defer func() {
 		w.Render()
 	}()
-	w.Header("Date", "Exercise", "Result", "Runtime")
-	w.Append([]string{d, fmt.Sprintf("%d", p), resultStr, runtimeDuration.String()})
+	w.Header("Exercise", "Result", "Runtime", "Memory Allocated")
+	w.Append([]string{fmt.Sprintf("%s/%d", d, p), resultStr, runtimeDuration.String(), fmt.Sprintf("%d", totalAlloc)})
 }
